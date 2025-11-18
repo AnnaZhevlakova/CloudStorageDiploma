@@ -5,7 +5,8 @@ public class ErrorDto {
     private String message;
     private Integer id;
 
-    public ErrorDto() {}
+    public ErrorDto() {
+    }
 
     public ErrorDto(String message, Integer id) {
         this.message = message;

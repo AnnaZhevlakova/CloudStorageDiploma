@@ -6,18 +6,18 @@ import jakarta.persistence.*;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "file_info",schema = "netology")
+@Table(name = "file_info", schema = "netology")
 public class FileInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private long userId;
 
 
     @Column(name = "upload_date")
@@ -27,16 +27,23 @@ public class FileInfo {
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
-   // @Lob
+    // @Lob
     @Column(name = "file_data", nullable = false)
     // @Basic(fetch = FetchType.LAZY)
     private byte[] fileData;
 
-    public Long getId() {
+    @Column(name = "file_size")
+    private long fileSize;
+
+    @Column(name = "hash", length = 64)
+    private String hash;
+
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -48,11 +55,11 @@ public class FileInfo {
         this.fileName = fileName;
     }
 
-    public Long getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -79,5 +86,21 @@ public class FileInfo {
 
     public void setFileData(byte[] fileData) {
         this.fileData = fileData;
+    }
+
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 }

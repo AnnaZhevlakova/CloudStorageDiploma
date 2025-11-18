@@ -1,6 +1,7 @@
 package com.example.CloudStorageDiploma.exceptionHandler;
 
 import com.example.CloudStorageDiploma.StackTraceUtil;
+import com.example.CloudStorageDiploma.dto.ErrorDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,12 +17,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handlerGlobalException(Exception ex) throws Exception {
         logger.error(String.format("message: %s | stackTrace: %s", ex.getMessage(), StackTraceUtil.getStackTraceAsString(ex)));
+        var error = new ErrorDto();
+        error.setMessage("Что то пошло не так.");
+        error.setId(500);
 
         ObjectMapper mapper = new ObjectMapper();
 
-        String responseJson = mapper.writeValueAsString("Что то пошло не так.");
+        String responseJson = mapper.writeValueAsString(error);
         return ResponseEntity.status(HttpStatusCode.valueOf(500)).body(responseJson);
-
     }
 
 }

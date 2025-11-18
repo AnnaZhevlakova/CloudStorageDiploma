@@ -4,7 +4,8 @@ package com.example.CloudStorageDiploma.dto;
 public class RenameRequest {
     private String name;
 
-    public RenameRequest() {}
+    public RenameRequest() {
+    }
 
     public RenameRequest(String name) {
         this.name = name;

@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "users",schema = "netology", uniqueConstraints = @UniqueConstraint(columnNames = "login"))
+@Table(name = "users", schema = "netology", uniqueConstraints = @UniqueConstraint(columnNames = "login"))
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(nullable = false, unique = true, length = 50)
     private String login;
@@ -19,7 +19,8 @@ public class User {
     private String password;
 
 
-    public User() {}
+    public User() {
+    }
 
     public User(String login, String password) {
         this.login = login;
@@ -27,11 +28,11 @@ public class User {
     }
 
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -5,7 +5,8 @@ public class LoginResponse {
     private String authToken;
 
 
-    public LoginResponse() {}
+    public LoginResponse() {
+    }
 
     public LoginResponse(String authToken) {
         this.authToken = authToken;

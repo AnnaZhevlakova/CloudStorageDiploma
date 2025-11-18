@@ -17,3 +17,7 @@ CREATE TABLE IF NOT exists netology.file_info (
 
     FOREIGN KEY (user_id) REFERENCES netology.users(id)
 );
+
+ALTER TABLE netology.file_info
+ADD COLUMN file_size BIGINT,
+ADD COLUMN hash VARCHAR(64);

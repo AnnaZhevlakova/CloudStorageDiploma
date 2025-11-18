@@ -1,14 +1,15 @@
 package com.example.CloudStorageDiploma.dto;
 
 
-public class FileInfo {
+public class FileInfoDto {
     private String filename;
-    private Long size;
+    private long size;
 
 
-    public FileInfo() {}
+    public FileInfoDto() {
+    }
 
-    public FileInfo(String filename, Long size) {
+    public FileInfoDto(String filename, long size) {
         this.filename = filename;
         this.size = size;
     }
@@ -22,11 +23,11 @@ public class FileInfo {
         this.filename = filename;
     }
 
-    public Long getSize() {
+    public long getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(long size) {
         this.size = size;
     }
 }

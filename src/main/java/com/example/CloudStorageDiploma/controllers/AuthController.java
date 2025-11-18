@@ -3,9 +3,11 @@ package com.example.CloudStorageDiploma.controllers;
 import com.example.CloudStorageDiploma.dto.ErrorDto;
 import com.example.CloudStorageDiploma.dto.LoginRequest;
 import com.example.CloudStorageDiploma.dto.LoginResponse;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Scope("request")
 @RestController
 @RequestMapping("/cloud")
 public class AuthController {
