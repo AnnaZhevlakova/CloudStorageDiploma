@@ -16,6 +16,7 @@ import java.util.List;
 @Repository
 public interface FileInfoRepository extends JpaRepository<FileInfo, Long> {
 
+    @Modifying
     @Query("DELETE FROM FileInfo f WHERE f.fileName = :fileName AND f.userId = :userId")
     void deleteByFileNameAndUserId(@Param("fileName") String fileName,
                                    @Param("userId") long userId);

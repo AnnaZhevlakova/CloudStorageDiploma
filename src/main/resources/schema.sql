@@ -14,10 +14,10 @@ CREATE TABLE IF NOT exists netology.file_info (
     user_id BIGINT NOT NULL,
     file_data bytea NOT NULL,
     upload_date TIMESTAMP,
-
+    file_size int8 NULL,
+    hash varchar(64) NULL,
     FOREIGN KEY (user_id) REFERENCES netology.users(id)
 );
 
-ALTER TABLE netology.file_info
-ADD COLUMN file_size BIGINT,
-ADD COLUMN hash VARCHAR(64);
+insert into netology.users(login,password)
+values('test2',  'test')

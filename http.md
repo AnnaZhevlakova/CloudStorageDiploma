@@ -22,3 +22,8 @@ curl --location --request GET 'http://localhost:8081/cloud/list?limit=1' \
 --data '{
 "name" : "newTestNAME"
 }'
+
+
+curl --location --request DELETE 'http://localhost:8081/cloud/file' \
+--header 'auth-token: asd' \
+--form 'filename="Test"'
