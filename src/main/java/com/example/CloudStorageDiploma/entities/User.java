@@ -1,6 +1,7 @@
 package com.example.CloudStorageDiploma.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
@@ -12,9 +13,11 @@ public class User {
     @Column(name = "id")
     private long id;
 
+    @NotBlank
     @Column(nullable = false, unique = true, length = 50)
     private String login;
 
+    @NotBlank
     @Column(nullable = false)
     private String password;
 

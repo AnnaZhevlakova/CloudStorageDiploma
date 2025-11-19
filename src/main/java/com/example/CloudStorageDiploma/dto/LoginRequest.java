@@ -1,8 +1,13 @@
 package com.example.CloudStorageDiploma.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
+
 public class LoginRequest {
+    @NotBlank
     private String login;
+
+    @NotBlank
     private String password;
 
     public LoginRequest() {

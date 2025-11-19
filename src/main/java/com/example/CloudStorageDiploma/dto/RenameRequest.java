@@ -1,7 +1,11 @@
 package com.example.CloudStorageDiploma.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
+
 public class RenameRequest {
+
+    @NotBlank
     private String name;
 
     public RenameRequest() {

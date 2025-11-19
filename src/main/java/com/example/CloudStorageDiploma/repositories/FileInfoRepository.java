@@ -2,8 +2,10 @@ package com.example.CloudStorageDiploma.repositories;
 
 import com.example.CloudStorageDiploma.dto.FileInfoDto;
 import com.example.CloudStorageDiploma.entities.FileInfo;
+import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -18,17 +20,18 @@ public interface FileInfoRepository extends JpaRepository<FileInfo, Long> {
     void deleteByFileNameAndUserId(@Param("fileName") String fileName,
                                    @Param("userId") long userId);
 
+    @Modifying
     @Query("UPDATE FileInfo f SET f.fileName = :newFileName WHERE f.fileName = :oldFileName AND f.userId = :userId")
-    void updateFileName(@Param("oldFileName") String oldFileName,
-                        @Param("newFileName") String newFileName,
-                        @Param("userId") long userId);
+    int updateFileName(@Param("oldFileName") String oldFileName,
+                       @Param("newFileName") String newFileName,
+                       @Param("userId") long userId);
 
-    @Query("SELECT f.fileName AS filename,f.fileSize AS size FROM FileInfo f WHERE f.userId = :userId ORDER BY f.fileName LIMIT :limit OFFSET :offset")
+    @Query("SELECT new com.example.CloudStorageDiploma.dto.FileInfoDto(f.fileName, f.fileSize) FROM FileInfo f WHERE f.userId = :userId ORDER BY f.fileName LIMIT :limit OFFSET :offset")
     List<FileInfoDto> getFilesList(@Param("userId") long userId,
                                    @Param("limit") Integer limit,
                                    @Param("offset") Integer offset);
 
-    @Query("SELECT f.fileName AS filename,f.fileSize AS size FROM FileInfo f WHERE f.userId = :userId")
+    @Query("SELECT new com.example.CloudStorageDiploma.dto.FileInfoDto(f.fileName, f.fileSize) FROM FileInfo f WHERE f.userId = :userId")
     List<FileInfoDto> getFilesList(@Param("userId") long userId);
 
 

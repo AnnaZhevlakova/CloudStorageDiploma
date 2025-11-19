@@ -1,9 +1,9 @@
 package com.example.CloudStorageDiploma.controllers;
 
 import com.example.CloudStorageDiploma.dto.ErrorDto;
-import com.example.CloudStorageDiploma.dto.FileInfoDto;
 import com.example.CloudStorageDiploma.dto.RenameRequest;
 import com.example.CloudStorageDiploma.services.FileService;
+import jakarta.validation.Valid;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -13,11 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 @Scope("request")
 @RestController
 @RequestMapping("/cloud")
+@Valid
 public class FileController {
     private FileService fileService;
 
@@ -29,19 +29,13 @@ public class FileController {
     public ResponseEntity<?> uploadFile(
             @RequestHeader("auth-token") String authToken,
             @RequestParam("filename") String filename,
-            @RequestParam("file") MultipartFile file) {
-
-        try {
-            // TODO: Validate auth token
-            // TODO: Save file to storage
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new ErrorDto("Error input data", 400));
-        } catch (SecurityException e) {
-            return ResponseEntity.status(401).body(new ErrorDto("Unauthorized error", 401));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new ErrorDto("Error upload file", 500));
+            @RequestParam("file") MultipartFile file) throws Exception {
+        if (file == null || file.isEmpty()) {
+            return ResponseEntity.badRequest().body(new ErrorDto("Пустой файл", 404));
         }
+        var fileData = file.getBytes();
+        fileService.uploadFile(filename, fileData, 1, file.getSize());
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/file")
@@ -57,23 +51,8 @@ public class FileController {
     public ResponseEntity<?> downloadFile(
             @RequestHeader("auth-token") String authToken,
             @RequestParam("filename") String filename) {
-
-        try {
-            // TODO: Validate auth token
-            // TODO: Retrieve file from storage
-            Resource fileResource = null; // Replace with actual file resource
-
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
-                    .body(fileResource);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new ErrorDto("Error input data", 400));
-        } catch (SecurityException e) {
-            return ResponseEntity.status(401).body(new ErrorDto("Unauthorized error", 401));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new ErrorDto("Error upload file", 500));
-        }
+        var result = fileService.downloadFile(filename, 1);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PutMapping("/file")

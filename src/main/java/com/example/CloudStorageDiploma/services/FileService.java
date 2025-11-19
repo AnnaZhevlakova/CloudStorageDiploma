@@ -3,12 +3,15 @@ package com.example.CloudStorageDiploma.services;
 import com.example.CloudStorageDiploma.dto.FileInfoDto;
 import com.example.CloudStorageDiploma.dto.GetFileResponse;
 import com.example.CloudStorageDiploma.dto.RenameRequest;
+import com.example.CloudStorageDiploma.entities.FileInfo;
 import com.example.CloudStorageDiploma.repositories.FileInfoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Locale;
 
 
 @Scope("request")
@@ -20,13 +23,21 @@ public class FileService {
         this.fileInfoRepository = fileInfoRepository;
     }
 
+    @Transactional
+    public boolean uploadFile(String filename, byte[] fileData, long userId, long fileSize) throws Exception {
+        var newFile = new FileInfo();
+        newFile.setFileName(filename.trim().toLowerCase());
+        newFile.setUserId(userId);
+        newFile.setUploadDate(ZonedDateTime.now(ZoneOffset.UTC));
+        newFile.setFileSize(fileSize);
+        newFile.setFileData(fileData);
+        newFile.setHash(Base64Example.sha256(fileData));
+        fileInfoRepository.save(newFile);
 
-    public boolean uploadFile(String filename, byte[] fileData, long userId) {
-        throw new UnsupportedOperationException("Method not implemented yet");
-
+        return true;
     }
 
-
+    @Transactional
     public boolean deleteFile(String filename, long userId) {
         filename = filename.trim().toLowerCase();
         fileInfoRepository.deleteByFileNameAndUserId(filename, userId);
@@ -47,7 +58,7 @@ public class FileService {
 
     }
 
-
+    @Transactional
     public boolean renameFile(String filename, RenameRequest renameRequest, long userId) {
         filename = filename.trim().toLowerCase();
         var newName = renameRequest.getName().trim().toLowerCase();
