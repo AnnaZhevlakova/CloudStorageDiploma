@@ -31,7 +31,7 @@ public class FileService {
         newFile.setUploadDate(ZonedDateTime.now(ZoneOffset.UTC));
         newFile.setFileSize(fileSize);
         newFile.setFileData(fileData);
-        newFile.setHash(Base64Example.sha256(fileData));
+        newFile.setHash(HelperService.sha256(fileData));
         fileInfoRepository.save(newFile);
 
         return true;
@@ -53,7 +53,7 @@ public class FileService {
         }
         var getResponse = new GetFileResponse();
         getResponse.setHash(fileInfo.getHash());
-        getResponse.setFile(Base64Example.bytesToBase64(fileInfo.getFileData()));
+        getResponse.setFile(HelperService.bytesToBase64(fileInfo.getFileData()));
         return getResponse;
 
     }

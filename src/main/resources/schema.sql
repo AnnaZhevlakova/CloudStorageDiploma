@@ -20,4 +20,4 @@ CREATE TABLE IF NOT exists netology.file_info (
 );
 
 insert into netology.users(login,password)
-values('test2',  'test')
+values('test',  '$2a$10$gDTY0F.a6osJxkyeU/o.yunZNhyNxQlyAcH94AX01uurGAhPXHlXO') --test

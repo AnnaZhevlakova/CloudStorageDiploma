@@ -2,7 +2,6 @@ package com.example.CloudStorageDiploma.repositories;
 
 import com.example.CloudStorageDiploma.dto.FileInfoDto;
 import com.example.CloudStorageDiploma.entities.FileInfo;
-import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
+@Scope("request")
 @Repository
 public interface FileInfoRepository extends JpaRepository<FileInfo, Long> {
 

@@ -5,8 +5,6 @@ import com.example.CloudStorageDiploma.dto.RenameRequest;
 import com.example.CloudStorageDiploma.services.FileService;
 import jakarta.validation.Valid;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +29,7 @@ public class FileController {
             @RequestParam("filename") String filename,
             @RequestParam("file") MultipartFile file) throws Exception {
         if (file == null || file.isEmpty()) {
-            return ResponseEntity.badRequest().body(new ErrorDto("Пустой файл", 404));
+            return ResponseEntity.badRequest().body(new ErrorDto("Пустой файл", HttpStatus.BAD_REQUEST));
         }
         var fileData = file.getBytes();
         fileService.uploadFile(filename, fileData, 1, file.getSize());

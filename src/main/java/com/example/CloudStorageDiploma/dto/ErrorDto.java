@@ -1,6 +1,8 @@
 package com.example.CloudStorageDiploma.dto;
 
 
+import org.springframework.http.HttpStatus;
+
 public class ErrorDto {
     private String message;
     private Integer id;
@@ -11,6 +13,11 @@ public class ErrorDto {
     public ErrorDto(String message, Integer id) {
         this.message = message;
         this.id = id;
+    }
+
+    public ErrorDto(String message, HttpStatus httpStatus) {
+        this.message = message;
+        this.id = httpStatus.ordinal();
     }
 
     public String getMessage() {

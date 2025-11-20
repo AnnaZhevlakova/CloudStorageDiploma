@@ -2,8 +2,9 @@ package com.example.CloudStorageDiploma.controllers;
 
 import com.example.CloudStorageDiploma.dto.ErrorDto;
 import com.example.CloudStorageDiploma.dto.LoginRequest;
-import com.example.CloudStorageDiploma.dto.LoginResponse;
+import com.example.CloudStorageDiploma.services.UserService;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,18 +12,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/cloud")
 public class AuthController {
+    private UserService userService;
+
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        try {
-            // TODO: Implement authentication logic
-            // Validate credentials, generate token
-            String authToken = "generated-auth-token"; // Replace with actual token generation
-
-            return ResponseEntity.ok(new LoginResponse(authToken));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ErrorDto("Bad credentials", 400));
+        var result = userService.getAuthorities(loginRequest);
+        if (result == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorDto("Не верный логин или пароль.", HttpStatus.UNAUTHORIZED));
         }
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+
     }
 
     @PostMapping("/logout")
