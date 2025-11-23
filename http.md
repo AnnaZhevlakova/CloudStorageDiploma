@@ -24,3 +24,14 @@ curl --location --request GET 'http://localhost:8081/cloud/list?limit=1' \
 curl --location --request DELETE 'http://localhost:8081/cloud/file' \
 --header 'auth-token: asd' \
 --form 'filename="Test"'
+
+curl --location 'http://localhost:8081/cloud/login' \
+--header 'auth-token: asd' \
+--header 'Content-Type: application/json' \
+--data '{
+"login": "test",
+"password": "test"
+}'
+
+curl --location --request POST 'http://localhost:8081/cloud/logout' \
+--header 'auth-token: asd'

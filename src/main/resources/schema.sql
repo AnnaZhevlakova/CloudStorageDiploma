@@ -21,3 +21,18 @@ CREATE TABLE IF NOT exists netology.file_info (
 
 insert into netology.users(login,password)
 values('test',  '$2a$10$gDTY0F.a6osJxkyeU/o.yunZNhyNxQlyAcH94AX01uurGAhPXHlXO') --test
+
+
+MERGE INTO netology.users AS target
+USING (VALUES
+('test',  '$2a$10$gDTY0F.a6osJxkyeU/o.yunZNhyNxQlyAcH94AX01uurGAhPXHlXO')
+) AS source(login,password)
+ON target.login = source.login
+WHEN NOT MATCHED THEN
+  INSERT (login,password)
+  VALUES (source.login, source.password)
+  WHEN MATCHED THEN
+      UPDATE SET password = source.password;
+
+
+CREATE UNIQUE INDEX IF NOT EXISTS uq_file_info_user_id_file_name ON netology.file_info(user_id, file_name);

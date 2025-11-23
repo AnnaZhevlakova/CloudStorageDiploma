@@ -1,5 +1,6 @@
 package com.example.CloudStorageDiploma.services;
 
+import com.example.CloudStorageDiploma.components.JwtUtil;
 import com.example.CloudStorageDiploma.dto.LoginRequest;
 import com.example.CloudStorageDiploma.dto.LoginResponse;
 import com.example.CloudStorageDiploma.repositories.UserRepository;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private JwtUtil jwtUtil;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     public LoginResponse getAuthorities(LoginRequest loginRequest) {
@@ -23,8 +26,9 @@ public class UserService {
         if (!HelperService.checkPassword(loginRequest.getPassword(), user.getPassword())) {
             return null;
         }
+        var token = jwtUtil.generateToken(user.getId(), user.getLogin());
         var result = new LoginResponse();
-        result.setAuthToken(user.getLogin());
+        result.setAuthToken(token);
         return result;
     }
 
