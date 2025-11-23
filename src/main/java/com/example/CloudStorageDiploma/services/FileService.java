@@ -4,8 +4,11 @@ import com.example.CloudStorageDiploma.dto.FileInfoDto;
 import com.example.CloudStorageDiploma.dto.GetFileResponse;
 import com.example.CloudStorageDiploma.dto.RenameRequest;
 import com.example.CloudStorageDiploma.entities.FileInfo;
+import com.example.CloudStorageDiploma.exceptionHandler.GlobalExceptionHandler;
 import com.example.CloudStorageDiploma.repositories.FileInfoRepository;
 import jakarta.transaction.Transactional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ import java.util.List;
 @Service
 public class FileService {
     private FileInfoRepository fileInfoRepository;
+    private static final Logger logger = LogManager.getLogger(FileService.class);
 
     public FileService(FileInfoRepository fileInfoRepository) {
         this.fileInfoRepository = fileInfoRepository;
@@ -49,6 +53,7 @@ public class FileService {
         filename = filename.trim().toLowerCase();
         var fileInfo = fileInfoRepository.findByFileNameAndUserId(filename, userId);
         if (fileInfo == null) {
+            logger.info(String.format("Файл %s не найден. userId %d", filename,userId));
             return null;
         }
         var getResponse = new GetFileResponse();

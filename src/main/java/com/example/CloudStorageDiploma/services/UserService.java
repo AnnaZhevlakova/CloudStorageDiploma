@@ -3,7 +3,10 @@ package com.example.CloudStorageDiploma.services;
 import com.example.CloudStorageDiploma.components.JwtUtil;
 import com.example.CloudStorageDiploma.dto.LoginRequest;
 import com.example.CloudStorageDiploma.dto.LoginResponse;
+import com.example.CloudStorageDiploma.exceptionHandler.GlobalExceptionHandler;
 import com.example.CloudStorageDiploma.repositories.UserRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private UserRepository userRepository;
     private JwtUtil jwtUtil;
+    private static final Logger logger = LogManager.getLogger(UserService.class);
 
     public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
@@ -21,9 +25,11 @@ public class UserService {
     public LoginResponse getAuthorities(LoginRequest loginRequest) {
         var user = userRepository.findByLoginAndPassword(loginRequest.getLogin());
         if (user == null) {
+           logger.info(String.format("Пользователь с логином %s не найден.", loginRequest.getLogin()));
             return null;
         }
         if (!HelperService.checkPassword(loginRequest.getPassword(), user.getPassword())) {
+            logger.info(String.format("Логин %s или пароль не верный.", loginRequest.getLogin()));
             return null;
         }
         var token = jwtUtil.generateToken(user.getId(), user.getLogin());
