@@ -52,7 +52,7 @@ public class FileService {
         filename = filename.trim().toLowerCase();
         var fileInfo = fileInfoRepository.findByFileNameAndUserId(filename, userId);
         if (fileInfo == null) {
-            logger.info(String.format("Файл %s не найден. userId %d", filename,userId));
+            logger.info(String.format("Файл %s не найден. userId %d", filename, userId));
             return null;
         }
         var getResponse = new GetFileResponse();

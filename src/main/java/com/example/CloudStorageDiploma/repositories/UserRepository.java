@@ -1,6 +1,5 @@
 package com.example.CloudStorageDiploma.repositories;
 
-
 import com.example.CloudStorageDiploma.entities.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.JpaRepository;
