@@ -4,7 +4,6 @@ import com.example.CloudStorageDiploma.dto.FileInfoDto;
 import com.example.CloudStorageDiploma.dto.GetFileResponse;
 import com.example.CloudStorageDiploma.dto.RenameRequest;
 import com.example.CloudStorageDiploma.entities.FileInfo;
-import com.example.CloudStorageDiploma.exceptionHandler.GlobalExceptionHandler;
 import com.example.CloudStorageDiploma.repositories.FileInfoRepository;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
