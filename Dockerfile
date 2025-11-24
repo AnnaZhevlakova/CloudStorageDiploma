@@ -1,7 +1,7 @@
-FROM openjdk:8-jdk-alpine
+FROM eclipse-temurin:23-jdk-alpine
 
 EXPOSE 8081
 
-ADD target/CloudStorageDiploma-0.0.1-SNAPSHOT.jar
+ADD target/CloudStorageDiploma-0.0.1-SNAPSHOT.jar  myapp.jar
 
 ENTRYPOINT ["java","-jar","/myapp.jar"]
