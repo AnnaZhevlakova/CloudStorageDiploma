@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public LoginResponse getAuthorities(LoginRequest loginRequest) {
-        var user = userRepository.findByLoginAndPassword(loginRequest.getLogin());
+        var user = userRepository.findByLoginAndPassword(loginRequest.getLogin().trim());
         if (user == null) {
             logger.info(String.format("Пользователь с логином %s не найден.", loginRequest.getLogin()));
             return null;
