@@ -37,7 +37,6 @@ class UserServiceTest {
 
     @Test
     void getAuthorities_UserNotFound_ReturnsNull() {
-        // Arrange
         LoginRequest request = new LoginRequest();
         request.setLogin(LOGIN);
         request.setPassword(PASSWORD);

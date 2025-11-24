@@ -1,0 +1,6 @@
+services:
+  diploma-service:
+    build: ./
+    ports:
+      - "8081:8080"
+    container_name: diploma-service
