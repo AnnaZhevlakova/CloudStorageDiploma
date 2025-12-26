@@ -1,9 +1,13 @@
 package com.example.CloudStorageDiploma.controllers;
 
 import com.example.CloudStorageDiploma.components.JwtUtil;
-import com.example.CloudStorageDiploma.dto.ErrorDto;
-import com.example.CloudStorageDiploma.dto.RenameRequest;
+import com.example.CloudStorageDiploma.dto.*;
 import com.example.CloudStorageDiploma.services.FileService;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
@@ -11,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @Scope("request")
@@ -57,6 +63,15 @@ public class FileController {
 
     }
 
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = GetFileResponse.class)
+                    )
+            )
+    })
     @GetMapping("/file")
     public ResponseEntity<?> downloadFile(
             @RequestHeader("auth-token") String authToken,
@@ -82,6 +97,16 @@ public class FileController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            array = @ArraySchema(schema = @Schema(implementation = FileInfoDto.class))
+                    )
+            )
+    })
     @GetMapping("/list")
     public ResponseEntity<?> getFileList(
             @RequestHeader("auth-token") String authToken,
